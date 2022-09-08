@@ -1,0 +1,55 @@
+set number
+set relativenumber
+set scrolloff=10
+set nowrap
+set wildmenu
+set wildmode=list:longest
+set guioptions-=m
+set guioptions-=T
+set guioptions-=r
+set guioptions-=L
+set backspace=indent,eol,start
+set noexpandtab
+set tabstop=2
+set shiftwidth=2
+set smarttab
+set expandtab
+set splitright
+
+syntax on
+imap jj <Esc>
+nnoremap <C-`> :term<CR>
+nnoremap <C-f> :NERDTreeToggle<CR>
+let g:user_emmet_leader_key='<C-,>'
+set guifont=Consolas:h12:cANSI
+
+call plug#begin('~/vimfiles/autoload')
+
+" Themes
+Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+
+" Plugins
+Plug 'preservim/nerdtree'
+Plug 'mattn/emmet-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'pangloss/vim-javascript'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'othree/html5.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-Themes'
+Plug 'ap/vim-css-color'
+
+call plug#end()
+
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+colorscheme onedark
+let g:airline_theme='onedark'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#formatter = 'jsformatter'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
