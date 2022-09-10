@@ -17,6 +17,8 @@ set expandtab
 set splitright
 set termguicolors
 
+set encoding=utf-8
+
 syntax on
 imap jj <Esc>
 nnoremap <C-`> :term<CR>
@@ -29,6 +31,7 @@ call plug#begin('~/vimfiles/autoload')
 " Themes
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
+Plug 'arcticicestudio/nord-vim'
 
 " Plugins
 Plug 'preservim/nerdtree'
@@ -42,15 +45,44 @@ Plug 'othree/html5.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-Themes'
 Plug 'ap/vim-css-color'
+Plug 'dense-analysis/ale'
+Plug 'sheerun/vim-polyglot'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
-colorscheme onedark
-let g:airline_theme='onedark'
+colorscheme nord
+let g:airline_theme='nord'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#formatter = 'jsformatter'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline_powerline_fonts = 1
+
+let g:airline_symbols = {}
+let g:airline_symbols.maxlinenr = 'Ξ'
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\}
+let g:ale_fix_on_save = 1
+
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>h :History<CR>
+let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
+let g:fzf_buffers_jump = 1
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+let g:fzf_tags_command = 'ctags -R'
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+
+set nobackup
+set nowritebackup
+set updatetime=300
+set signcolumn=yes
