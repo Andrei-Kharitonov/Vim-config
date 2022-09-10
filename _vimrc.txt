@@ -47,9 +47,11 @@ Plug 'vim-airline/vim-airline-Themes'
 Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
@@ -58,13 +60,12 @@ autocmd FileType html,css EmmetInstall
 colorscheme nord
 let g:airline_theme='nord'
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'default'
-let g:airline#extensions#tabline#formatter = 'jsformatter'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
 
-let g:airline_symbols = {}
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
 let g:airline_symbols.maxlinenr = 'Ξ'
 
 let g:ale_fixers = {
@@ -86,3 +87,18 @@ set nobackup
 set nowritebackup
 set updatetime=300
 set signcolumn=yes
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <silent><expr> <S-Tab>
+      \ coc#pum#visible() ? coc#pum#prev(1) :
+      \ CheckBackspace() ? "\<S-Tab>" :
+      \ coc#refresh()
