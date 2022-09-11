@@ -1,63 +1,74 @@
+" === Vim settings ===
+syntax on
+set encoding=utf-8
 set number
 set relativenumber
+set cursorline
 set scrolloff=10
 set nowrap
 set wildmenu
 set wildmode=list:longest
-set guioptions-=m
-set guioptions-=T
-set guioptions-=r
-set guioptions-=L
 set backspace=indent,eol,start
 set noexpandtab
 set tabstop=2
 set shiftwidth=2
 set smarttab
 set expandtab
-set splitright
 set termguicolors
 
-set encoding=utf-8
 
-syntax on
-imap jj <Esc>
-nnoremap <C-`> :term<CR>
-nnoremap <C-f> :NERDTreeToggle<CR>
-let g:user_emmet_leader_key='<C-,>'
-set guifont=Consolas:h12:cANSI
+" === GVim settings ===
+" Enable if you use GVim
+"set guioptions-=m
+"set guioptions-=T
+"set guioptions-=r
+"set guioptions-=L
+"set guifont=Consolas:h12:cANSI
 
+
+" === Vim plugins ===
 call plug#begin('~/vimfiles/autoload')
 
-" Themes
-Plug 'morhetz/gruvbox'
-Plug 'joshdick/onedark.vim'
-Plug 'arcticicestudio/nord-vim'
-
-" Plugins
-Plug 'preservim/nerdtree'
-Plug 'mattn/emmet-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'vim-scripts/AutoComplPop'
-Plug 'pangloss/vim-javascript'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'othree/html5.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-Themes'
-Plug 'ap/vim-css-color'
-Plug 'dense-analysis/ale'
-Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'morhetz/gruvbox'                " Theme
+Plug 'joshdick/onedark.vim'           " Theme
+Plug 'arcticicestudio/nord-vim'       " Theme
+Plug 'preservim/nerdtree'             " File list
+Plug 'mattn/emmet-vim'                " Emmet
+Plug 'neoclide/vim-jsx-improve'       " Jsx syntax
+Plug 'vim-airline/vim-airline'        " Bottom panel
+Plug 'vim-airline/vim-airline-Themes' " Bottom panel themes
+Plug 'ap/vim-css-color'               " Colors in css
+Plug 'dense-analysis/ale'             " Code linter
+Plug 'sheerun/vim-polyglot'           " Lang analysis
+Plug 'junegunn/fzf'                   " File search
+Plug 'junegunn/fzf.vim'               " File search
+Plug 'neoclide/coc.nvim'              " Autocomplete
+Plug 'tpope/vim-fugitive'             " Git commands
+Plug 'airblade/vim-gitgutter'         " Git change lines
 
 call plug#end()
 
+
+" === Key mapping ===
+imap jj <Esc>
+nnoremap <C-f> :NERDTreeToggle<CR>
+
+
+" === Theme ===
+colorscheme nord
+
+
+" === Devicons ===
+" devicons: reasonable defaults from webinstall.dev/vim-devicons
+source ~/.vim/plugins/devicons.vim
+
+
+" === Emmet ===
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
-colorscheme nord
+
+
+" === Airline ===
 let g:airline_theme='nord'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -66,38 +77,49 @@ let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
+
 let g:airline_symbols.maxlinenr = 'Ξ'
+let g:airline_symbols.linenr = ' ln:'
+let g:airline_symbols.colnr = ' char:'
 
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\}
-let g:ale_fix_on_save = 1
 
+" === Fzf ===
 nnoremap <C-p> :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>h :History<CR>
+
 let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
 let g:fzf_buffers_jump = 1
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 let g:fzf_tags_command = 'ctags -R'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
 
+
+" === Coc ===
+" After installing type this command in normal mode:
+" CocInstall coc-json coc-tsserver coc-emmet coc-css coc-html
 set nobackup
 set nowritebackup
 set updatetime=300
 set signcolumn=yes
+autocmd FileType scss setl iskeyword+=@-@
+
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Tab - next list item
 inoremap <silent><expr> <Tab>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
+
+" Shift+Tab - prev list item
 inoremap <silent><expr> <S-Tab>
       \ coc#pum#visible() ? coc#pum#prev(1) :
       \ CheckBackspace() ? "\<S-Tab>" :
