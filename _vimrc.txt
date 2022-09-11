@@ -32,6 +32,7 @@ call plug#begin('~/vimfiles/autoload')
 Plug 'morhetz/gruvbox'                " Theme
 Plug 'joshdick/onedark.vim'           " Theme
 Plug 'arcticicestudio/nord-vim'       " Theme
+Plug 'mhinz/vim-startify'             " Start screen
 Plug 'preservim/nerdtree'             " File list
 Plug 'mattn/emmet-vim'                " Emmet
 Plug 'neoclide/vim-jsx-improve'       " Jsx syntax
@@ -45,6 +46,8 @@ Plug 'junegunn/fzf.vim'               " File search
 Plug 'neoclide/coc.nvim'              " Autocomplete
 Plug 'tpope/vim-fugitive'             " Git commands
 Plug 'airblade/vim-gitgutter'         " Git change lines
+Plug 'voldikss/vim-floaterm'          " Terminal
+Plug 'dstein64/vim-win'               " Windows navigation
 
 call plug#end()
 
@@ -52,10 +55,43 @@ call plug#end()
 " === Key mapping ===
 imap jj <Esc>
 nnoremap <C-f> :NERDTreeToggle<CR>
+nnoremap <C-t> :FloatermNew<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>S :SSave<CR>
+nnoremap <Leader>C :SClose<CR>
+nnoremap <Leader>f :call CocActionAsync('jumpDefinition')<CR>
+nnoremap <Leader>n :bn<CR>
+nnoremap <Leader>p :bp<CR>
+nnoremap <Leader>D :bdelete<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>h :History<CR>
 
 
 " === Theme ===
 colorscheme nord
+
+
+" === Startify ===
+let g:startify_custom_header = [
+\ '   ____   ____ __           ',
+\ '   \   \ /   /|__|  _____   ',
+\ '    \   Y   / |  | /     \  ',
+\ '     \     /  |  ||  Y Y  \ ',
+\ '      \___/   |__||__|_|__/ ',
+\ '                            ' 
+\ ]
+
+let g:startify_bookmarks = [
+\ { 'v': '~/.vimrc' },
+\ { 'w': '~/Projects-work'},
+\ { 's': '~/Projects-work/source'},
+\ ]
+
+let g:startify_lists = [
+\ { 'type': 'bookmarks', 'header': ['   Bookmarks']},
+\ { 'type': 'sessions', 'header': ['   Sessions']},
+\ { 'type': 'dir', 'header': ['   MRU '.getcwd()] },
+\ ]
 
 
 " === Devicons ===
@@ -84,10 +120,6 @@ let g:airline_symbols.colnr = ' char:'
 
 
 " === Fzf ===
-nnoremap <C-p> :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>h :History<CR>
-
 let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
 let g:fzf_buffers_jump = 1
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
@@ -124,3 +156,8 @@ inoremap <silent><expr> <S-Tab>
       \ coc#pum#visible() ? coc#pum#prev(1) :
       \ CheckBackspace() ? "\<S-Tab>" :
       \ coc#refresh()
+
+
+" === Floaterm ===
+let g:floaterm_height = 0.2
+let g:floaterm_wintype = 'split'
