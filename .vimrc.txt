@@ -83,8 +83,8 @@ let g:startify_custom_header = [
 
 let g:startify_bookmarks = [
 \ { 'v': '~/.vimrc' },
-\ { 'w': '~/Projects-work'},
-\ { 's': '~/Projects-work/source'},
+\ { 'w': '~/Projects'},
+\ { 'h': '~/'},
 \ ]
 
 let g:startify_lists = [
@@ -96,6 +96,8 @@ let g:startify_lists = [
 
 " === Devicons ===
 " devicons: reasonable defaults from webinstall.dev/vim-devicons
+" copy fonts to ~/.local/share/fonts
+" refresh cash: $ fc-cache -f -v
 source ~/.vim/plugins/devicons.vim
 
 
@@ -130,7 +132,8 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 
 " === Coc ===
 " After installing type this command in normal mode:
-" CocInstall coc-json coc-tsserver coc-emmet coc-css coc-html
+" CocInstall coc-json coc-tsserver coc-emmet coc-css coc-html coc-pyright
+" If error build/index.js: cd to coc.nvim folder, yarn install, yarn build
 set nobackup
 set nowritebackup
 set updatetime=300
